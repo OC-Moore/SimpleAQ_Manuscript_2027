@@ -1,0 +1,44 @@
+Bulk Data Download
+
+First steps to do in case you don't already have gsutil installed
+sudo snap instal google-cloud-cli
+sudo snap install google-cloud-cli --classic
+gsutil (to test the function is there)
+
+Log In
+gcloud auth login
+
+Set Project 
+gcloud config set project [ID]
+gcloud config set project endyear-psych-455684-r7 (example)
+
+Setting your directory
+# decide where you want the data to go, navigate with the cd and ls commands
+# ls tells you what is in the current directory
+# cd moves you into the next file or directory
+# you can use an existing file folder or make a directory
+mkdir simpleaq_data (or anything you want to name it)
+cd simpleaq_data
+
+Opening and Downloading
+gsutil -m -u [ID] cp -r "gs://simpleaq/data/clejfpm7g0000s60dp73asg52"   .
+gsutil -m -u [ID] cp -r [given path of sensor ID]
+# Sensor ID can be found in the url of the sensor data page on simpleaq.org
+
+Use ls to see what is in the directory
+cd [file name] to open that specific directory
+Use ls again to see the directory which should be the available files
+Run gunzip * to unzip the data 
+(if unzipping the data and get a file with the _.gstmp suffix on some of the files update the project id and then redownload (preferabbly use ctrl+C to exit and do this in the main directory not a sub one; then cd to find the new directory with the proper data without the extra suffix)
+
+Data Transformations Within the Console
+ cat * > all.tsv [this makes a new file within the directory with all the files in one]
+ head all.tsv [this checks the headers of the all file just created]
+ head -n 1 all.tsv > header.tsv [this removes the headers from the all.tsv file
+ grep -v gps_is_last_known all.tsv > body.tsv 
+ cat header.tsv body.tsv > all.tsv [pretty sure this created the two new files]
+
+ head (this command shows the headers of the file)
+ body (shows the body of the file)
+ cat (this command let's you look at the contents of a file)
+
